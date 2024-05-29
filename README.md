@@ -1,1 +1,1 @@
-# codecommit-codebuild-ecr
+#Build and push a Docker Image to AWS ECR using AWS Codebuild with CodeCommit as a source provider.
