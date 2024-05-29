@@ -43,7 +43,3 @@ phases:
         
 # 3) Edit Buildspec.yml file.
 # 4) Add Dockerfile if not present.
-
-#Reference 1: https://youtu.be/1UjA8O4deVo?si=NGyXg7mFbu36sS_C
-
-#Reference 2: https://youtu.be/OBF-IR1gOww?si=BPfjU0hpGJ8d32T6
