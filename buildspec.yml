@@ -1,0 +1,49 @@
+#Build and push a Docker Image to AWS ECR using AWS Codebuild with CodeCommit as a source provider.
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+  build:
+    commands:
+      - echo Build started on 'date'
+      - echo Build the Docker image...
+      - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .
+      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+  post_build:
+    commands: 
+      - echo Build completed on 'date'
+      - echo pushing Docker image...
+      - docker push $AWS_AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+
+##Prerequisite
+# 1) Create an ECR in the same region as that of Codebuild.
+# 2) Create a codebuild project:
+# - a) For operating system, choose ubuntu.
+# - b) For run time, choos standard.
+# - c) For image, select aws/codebuild/standard:4.0. 4.0 is the latest version. it changes over time.
+# - d) Since you will use codebuild docker image, select Priviledged ... so as to permit codebuild to exercute docker commands.
+
+# - e) Add the following enviroment variables:
+         # (i) AWS DEFAUT_REGION with a value of Region ID.
+         # (ii) AWS_account_ID with a value of account-ID.
+         # (iii) IMAGE_TAG with the value of latest.
+         # (iv) IMAGE_REPO_NAME with value of Amazon-ECR-repo-name.
+
+# - f) Add the policy of AmazonEC2containerRegistryFullAccess to codebuild. To attach this policy (AmazonEC2containerRegistryFullAccess),
+         # (i) Go to IAM service dash board,
+         # (ii) Click on Policies,
+         # (iii) Search for *AmazonEC2containerRegistryFullAccess* on the search bar,
+         # (iv) Select the policy,
+         # (vi) Click on *action* and select *attach* to  grant the full access policy to codebuild,
+         # (vii) Select the name of the project you just created on codebuild, and click on *attach policy*.
+         # (viii) click on *start build* to start building the image.
+        
+# 3) Edit Buildspec.yml file.
+# 4) Add Dockerfile if not present.
+
+#Reference 1: https://youtu.be/1UjA8O4deVo?si=NGyXg7mFbu36sS_C
+
+#Reference 2: https://youtu.be/OBF-IR1gOww?si=BPfjU0hpGJ8d32T6
