@@ -24,7 +24,7 @@ phases:
 # 1) Create an ECR in the same region as that of Codebuild.
 # 2) Create a codebuild project:
 # - a) For operating system, choose ubuntu.
-# - b) For run time, choos standard.
+# - b) For run time, choose standard.
 # - c) For image, select aws/codebuild/standard:4.0. 4.0 is the latest version. it changes over time.
 # - d) Since you will use codebuild docker image, select Priviledged ... so as to permit codebuild to exercute docker commands.
 
