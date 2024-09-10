@@ -1,0 +1,25 @@
+##Prerequisite
+# 1) Create an ECR in the same region as that of Codebuild.
+# 2) Create a codebuild project:
+# - a) For operating system, choose ubuntu.
+# - b) For run time, choose standard.
+# - c) For image, select aws/codebuild/standard:4.0. 4.0 is the latest version. it changes over time.
+# - d) Since you will use codebuild docker image, select Priviledged ... so as to permit codebuild to exercute docker commands.
+
+# - e) Add the following enviroment variables:
+         # (i) AWS DEFAUT_REGION with a value of Region ID.
+         # (ii) AWS_account_ID with a value of account-ID.
+         # (iii) IMAGE_TAG with the value of latest.
+         # (iv) IMAGE_REPO_NAME with value of Amazon-ECR-repo-name.
+
+# - f) Add the policy of AmazonEC2containerRegistryFullAccess to codebuild. To attach this policy (AmazonEC2containerRegistryFullAccess),
+         # (i) Go to IAM service dash board,
+         # (ii) Click on Policies,
+         # (iii) Search for *AmazonEC2containerRegistryFullAccess* on the search bar,
+         # (iv) Select the policy,
+         # (vi) Click on *action* and select *attach* to  grant the full access policy to codebuild,
+         # (vii) Select the name of the project you just created on codebuild, and click on *attach policy*.
+         # (viii) click on *start build* to start building the image.
+        
+# 3) Edit Buildspec.yml file.
+# 4) Add Dockerfile if not present.
